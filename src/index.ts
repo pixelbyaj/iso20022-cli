@@ -43,6 +43,7 @@ if (args.length == 3 || args.length == 4) {
   });
 }
 else{
-    console.error('Usage: mx <source-path> <targetNamespace> <xsdFileName> <output-path>');
+    console.error('Usage: mx <json-file-path> <targetNamespace> <output-xml-file-path>');
+    console.error('Usage: mx <json-file-path> <targetNamespace> <xsdFileName> <output-xml-file-path>');
     process.exit(1);
 }

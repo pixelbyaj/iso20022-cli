@@ -1,7 +1,7 @@
 {
-  "name": "mx-cli",
+  "name": "iso20022-cli",
   "version": "1.0.0",
-  "description": "Convert ngx-iso-form output JSON to MX message",
+  "description": "Convert ngx-iso-form output JSON to ISO20022 message",
   "private": false,
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixelbyaj/mx-cli.git"
+    "url": "git+https://github.com/pixelbyaj/iso20022-cli.git"
   },
   "keywords": [
     "mx",
@@ -24,9 +24,9 @@
   "author": "Abhishek Joshi (aka pixelbyaj)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pixelbyaj/mx-cli/issues"
+    "url": "https://github.com/pixelbyaj/iso20022-cli/issues"
   },
-  "homepage": "https://github.com/pixelbyaj/mx-cli#readme",
+  "homepage": "https://github.com/pixelbyaj/iso20022-cli#readme",
   "scripts": {
     "build": "tsc && npm run copy-tools",
     "copy-tools": "node ./copy.js",
