@@ -1,0 +1,40 @@
+{
+  "name": "mx-cli",
+  "version": "1.0.0",
+  "description": "Convert ngx-iso-form output JSON to MX message",
+  "private": false,
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "bin": {
+    "mx": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixelbyaj/mx-cli.git"
+  },
+  "keywords": [
+    "mx",
+    "json",
+    "converter",
+    "jsontomxconverter"
+  ],
+  "author": "Abhishek Joshi (aka pixelbyaj)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pixelbyaj/mx-cli/issues"
+  },
+  "homepage": "https://github.com/pixelbyaj/mx-cli#readme",
+  "scripts": {
+    "build": "tsc && npm run copy-tools",
+    "copy-tools": "node ./copy.js",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "cpx": "^1.5.0",
+    "typescript": "^5.5.4"
+  }
+}
