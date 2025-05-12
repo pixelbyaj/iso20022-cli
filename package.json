@@ -1,13 +1,10 @@
 {
-  "name": "iso20022-cli",
-  "version": "1.0.0",
-  "description": "Convert ngx-iso-form output JSON to ISO20022 message",
+  "name": "iso20022",
+  "version": "1.1.0",
+  "description": "Convert ngx-iso-form output JSON or a given ISO 20022 JSON to ISO 20022 message",
   "private": false,
-  "main": "dist/main.js",
-  "types": "dist/main.d.ts",
-  "bin": {
-    "mx": "dist/index.js"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],

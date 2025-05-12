@@ -1,49 +1,101 @@
-#!/usr/bin/env node
+import { spawn } from 'child_process';
+import { getAppPath, getPlatform } from './platform';
+import * as fs from 'fs';
 
-import { spawn } from "child_process";
-import { getAppPath, getPlatform } from "./platform";
-import fs = require("fs");
+const mx = {
+    convert: (jsonFileName: string, targetNamespace: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            const mxCliAppPath = getAppPath();
+            if (getPlatform() !== 'win32') {
+                fs.chmodSync(mxCliAppPath, '755');
+            }
+            // Spawn the process with the captured arguments
+            const appSubProcess = spawn(mxCliAppPath, ['1', jsonFileName, targetNamespace]);
 
-const mxCliAppPath = getAppPath();
-// Ensure the executable has proper permissions on Unix-like systems
-if (getPlatform() !== "win32") {
-  fs.chmodSync(mxCliAppPath, "755");
-}
+            let outputData = '';
+            // Capture standard output
+            appSubProcess.stdout.on('data', (data) => {
+                outputData += data;
+            });
 
-// Capture command-line arguments passed to the Node.js script
-const args = process.argv.slice(2);
+            // Capture standard error
+            appSubProcess.stderr.on('data', (data) => {
+                console.error(`Error: ${data}`);
+            });
 
-if (args.length == 3 || args.length == 4) {
-  //Capture output path
-  const outputPath = args.pop();
+            // Handle process exit
+            appSubProcess.on('close', (code) => {
+                if (code === 0) {
+                    // Write the output to the specified file
+                    resolve(outputData);
+                } else {
+                    reject(code);
+                }
+            });
+        });
+    },
+    convertAndValidate: (jsonFileName: string, targetNamespace: string, xsdFileName: string) => {
+        return new Promise((resolve, reject) => {
+            const mxCliAppPath = getAppPath();
+            if (getPlatform() !== 'win32') {
+                fs.chmodSync(mxCliAppPath, '755');
+            }
+            // Spawn the process with the captured arguments
+            const appSubProcess = spawn(mxCliAppPath, ['2',jsonFileName, targetNamespace, xsdFileName]);
 
-  // Spawn the process with the captured arguments
-  const appProcess = spawn(mxCliAppPath, args);
+            let outputData = '';
+            // Capture standard output
+            appSubProcess.stdout.on('data', (data) => {
+                outputData += data;
+            });
 
-  let outputData = "";
-  // Capture standard output
-  appProcess.stdout.on("data", (data) => {
-    outputData += data;
-  });
+            // Capture standard error
+            appSubProcess.stderr.on('data', (data) => {
+                console.error(`Error: ${data}`);
+            });
 
-  // Capture standard error
-  appProcess.stderr.on("data", (data) => {
-    console.error(`Error: ${data}`);
-  });
+            // Handle process exit
+            appSubProcess.on('close', (code) => {
+                if (code === 0) {
+                    // Write the output to the specified file
+                    resolve(outputData);
+                } else {
+                    reject(code);
+                }
+            });
+        });
+    },
+    validate:(xmlFileName: string,xsdFileName: string) =>{
+        return new Promise((resolve, reject) => {
+            const mxCliAppPath = getAppPath();
+            if (getPlatform() !== 'win32') {
+                fs.chmodSync(mxCliAppPath, '755');
+            }
+            // Spawn the process with the captured arguments
+            const appSubProcess = spawn(mxCliAppPath, ['3', xmlFileName, xsdFileName]);
 
-  // Handle process exit
-  appProcess.on("close", (code) => {
-    if (code === 0) {
-      // Write the output to the specified file
-      fs.writeFileSync(outputPath as any, outputData, "utf8");
-      console.log(`Output written to ${outputPath}`);
-    } else {
-      console.error(`application exited with code ${code}`);
+            let outputData = '';
+            // Capture standard output
+            appSubProcess.stdout.on('data', (data) => {
+                outputData += data;
+            });
+
+            // Capture standard error
+            appSubProcess.stderr.on('data', (data) => {
+                console.error(`Error: ${data}`);
+            });
+
+            // Handle process exit
+            appSubProcess.on('close', (code) => {
+                if (code === 0) {
+                    // Write the output to the specified file
+                    resolve(outputData);
+                } else {
+                    reject(code);
+                }
+            });
+        });
     }
-  });
 }
-else{
-    console.error('Usage: mx <json-file-path> <targetNamespace> <output-xml-file-path>');
-    console.error('Usage: mx <json-file-path> <targetNamespace> <xsdFileName> <output-xml-file-path>');
-    process.exit(1);
-}
+
+export default mx;
